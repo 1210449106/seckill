@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.wrywebsite.mapper.GoodsMapper">
+
+    <resultMap id="BaseResultMap" type="xyz.wrywebsite.entity.Goods">
+            <id property="id" column="goods_id" jdbcType="INTEGER"/>
+            <result property="title" column="goods_title" jdbcType="VARCHAR"/>
+            <result property="introduce" column="goods_introduce" jdbcType="VARCHAR"/>
+            <result property="price" column="goods_price" jdbcType="DECIMAL"/>
+            <result property="count" column="goods_count" jdbcType="INTEGER"/>
+            <result property="randomNum" column="goods_random_num" jdbcType="VARCHAR"/>
+            <result property="image" column="goods_image" jdbcType="VARCHAR"/>
+            <result property="startTime" column="goods_start_time" jdbcType="TIMESTAMP"/>
+            <result property="endTime" column="goods_end_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        goods_id,goods_title,goods_introduce,
+        goods_price,goods_count,goods_random_num,
+        goods_image,goods_start_time,goods_end_time
+    </sql>
+</mapper>
