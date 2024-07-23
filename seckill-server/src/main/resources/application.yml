@@ -1,2 +1,31 @@
-server:
-    port: 8080
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.68.200:3306/seckill?serverTimezone=Asia/Shanghai&useSSL=false
+    username: 1210449106
+    password: 123456
+
+  data:
+    redis:
+      host: 192.168.68.200
+      port: 6379
+      password: 123456
+
+  rabbitmq:
+    host: 192.168.68.200
+    port: 5672
+    username: 1210449106
+    password: 123456
+    virtual-host: wry
+    listener:
+      simple:
+        acknowledge-mode: manual
+    # 确认消息已发送到交换机模式为交互(发送者确认模式)
+    publisher-confirm-type: correlated
+    # returns模式开启
+    publisher-returns: true
+
+logging:
+  level:
+    xyz.wrywebsite.*: debug

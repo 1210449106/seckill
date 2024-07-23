@@ -46,6 +46,8 @@ public interface Constants {
     String QUEUE_ORDER_NAME = QUEUE_NAME_PREF + "." + "order";
     // 负责确认支付状态的queueue
     String QUEUE_PAY_NAME = QUEUE_NAME_PREF + "." + "pay";
+    // 确认支付状态延时时间
+    Integer QUEUE_PAY_DELAY_TIME = 40*1000;
 
     //routingkey
     // 前缀
@@ -53,5 +55,5 @@ public interface Constants {
     // 负责接收下单消息队列的routingkey
     String ROUTING_KEY_ORDER_NAME = ROUTING_KEY_PREF + "." + "order";
     // 负责确认支付状态队列的routingkey
-    String ROUTING_PAY_NAME = ROUTING_KEY_PREF + "." + "pay";
+    String ROUTING_KEY_PAY_NAME = ROUTING_KEY_PREF + "." + "pay";
 }

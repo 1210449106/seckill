@@ -9,8 +9,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * @TableName t_goods
@@ -19,9 +21,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Accessors(chain = true)
 public class Goods implements Serializable {
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Integer goodsId;
 
     private String title;
 

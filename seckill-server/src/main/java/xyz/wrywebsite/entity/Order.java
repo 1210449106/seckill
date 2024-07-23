@@ -9,8 +9,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * @TableName t_order
@@ -19,10 +21,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Accessors(chain = true)
 public class Order implements Serializable {
 
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Integer orderId;
 
     private Integer goodsId;
 
@@ -30,7 +34,7 @@ public class Order implements Serializable {
 
     private BigDecimal goodsPrice;
 
-    private String goodsCount;
+    private Integer goodsCount;
 
     private BigDecimal totalPrice;
 
