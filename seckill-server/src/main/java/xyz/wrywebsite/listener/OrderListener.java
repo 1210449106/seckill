@@ -13,11 +13,12 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import xyz.wrywebsite.constant.Constants;
-import xyz.wrywebsite.constant.vo.OrderMessageVo;
+import xyz.wrywebsite.constant.vo.OrderResponseVo;
 import xyz.wrywebsite.entity.Goods;
 import xyz.wrywebsite.entity.Order;
+import xyz.wrywebsite.rabbitmqCallback.RabbitMQConfirmCallback;
+import xyz.wrywebsite.rabbitmqCallback.RabbitMQReturnsCallback;
 import xyz.wrywebsite.service.GoodsService;
 import xyz.wrywebsite.service.OrderService;
 
@@ -56,18 +57,18 @@ public class OrderListener {
     }
 
     @RabbitListener(queues = {Constants.QUEUE_ORDER_NAME})
-    public void submitOrder(OrderMessageVo orderMessageVo, Channel channel, Message message) {
+    public void submitOrder(OrderResponseVo orderResponseVo, Channel channel, Message message) {
         // 获取消息tag
         long tag = message.getMessageProperties().getDeliveryTag();
         try {
             // 接收到消息,获取Goods对象,生成订单，扣减库存
-            Goods goods = goodsService.getById(orderMessageVo.getGoodsId());
+            Goods goods = goodsService.getById(orderResponseVo.getGoodsId());
             Order order = Order.builder()
-                    .goodsId(orderMessageVo.getGoodsId())
-                    .userId(orderMessageVo.getUserId())
-                    .goodsCount(orderMessageVo.getGoodsCount())
+                    .goodsId(orderResponseVo.getGoodsId())
+                    .userId(orderResponseVo.getUserId())
+                    .goodsCount(orderResponseVo.getGoodsCount())
                     .goodsPrice(goods.getPrice())
-                    .totalPrice(goods.getPrice().multiply(new BigDecimal(orderMessageVo.getGoodsCount())))
+                    .totalPrice(goods.getPrice().multiply(new BigDecimal(orderResponseVo.getGoodsCount())))
                     .status(0)
                     .creatTime(new Date())
                     .build();

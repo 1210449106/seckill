@@ -20,14 +20,16 @@ public interface Constants {
     // 商品列表信息key
     String REDIS_GOODS_LIST = REDIS_GOODS_PREF + ":" + "list" + ":";
     // 商品库存信息key
-    String REDIS_COUNT = REDIS_GOODS_PREF + ":" + "count" + ":";
+    String REDIS_GOODS_COUNT = REDIS_GOODS_PREF + ":" + "count" + ":";
 
     // 订单前缀key
     String REDIS_ORDERS_PREF = "orders";
     // 订单key
     String REDIS_ORDER = REDIS_ORDERS_PREF + ":" + "order" + ":";
+    // 订单秒杀关系key
+    String REDIS_ORDER_SECKILL = REDIS_ORDERS_PREF + ":" + "seckill" + ":";
     // 订单支付结果key
-    String REDIS_PAY = REDIS_ORDERS_PREF + ":" + "pay" + ":";
+    String REDIS_ORDER_PAY = REDIS_ORDERS_PREF + ":" + "pay" + ":";
 
 
     // RabbieMQ

@@ -19,12 +19,12 @@ import lombok.NoArgsConstructor;
 @Data
 public class HttpResult {
     private Integer code;
-    private String msg;
+    private String message;
     private Object data;
 
     public HttpResult(ResponseEnum responseEnum, Object data) {
         this.code = responseEnum.getCode();
-        this.msg = responseEnum.getMessage();
+        this.message = responseEnum.getMessage();
         this.data = data;
     }
 }

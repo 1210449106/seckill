@@ -9,23 +9,36 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @author wry
  * @version 1.0
- * @classname OrderMessageVo
- * @description 订单提交对象
+ * @classname GoodsListResponseVo
+ * @description
  * @since 1.0
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderMessageVo {
+@Accessors(chain = true)
+public class GoodsListResponseVo {
 
     private Integer goodsId;
 
-    private Integer userId;
+    private String title;
 
-    private Integer goodsCount;
+    private String introduce;
+
+    private BigDecimal price;
+
+    private Integer count;
+
+    private String image;
+
+    private Date startTime;
 }

@@ -6,13 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
 import xyz.wrywebsite.constant.Constants;
-import xyz.wrywebsite.constant.vo.OrderMessageVo;
-import xyz.wrywebsite.entity.Goods;
-import xyz.wrywebsite.entity.Order;
-import xyz.wrywebsite.service.GoodsService;
-import xyz.wrywebsite.service.OrderService;
-
-import java.util.List;
+import xyz.wrywebsite.constant.vo.OrderResponseVo;
 
 @SpringBootTest
 @Slf4j
@@ -24,13 +18,13 @@ class SeckillServerApplicationTests {
 
     @Test
     public void testSubmitOrder() {
-        OrderMessageVo orderMessageVo = OrderMessageVo
+        OrderResponseVo orderResponseVo = OrderResponseVo
                 .builder()
                 .userId(1)
                 .goodsId(1)
                 .goodsCount(1)
                 .build();
-        amqpTemplate.convertAndSend(Constants.EXCHANGE_ORDER_NAME, Constants.ROUTING_KEY_ORDER_NAME, orderMessageVo);
+        amqpTemplate.convertAndSend(Constants.EXCHANGE_ORDER_NAME, Constants.ROUTING_KEY_ORDER_NAME, orderResponseVo);
     }
 
 }

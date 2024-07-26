@@ -3,7 +3,7 @@
  * Copyright 2023, WRY Information&Science Technology Co.,Ltd,
  * All rights reserved.
  */
-package xyz.wrywebsite.listener;
+package xyz.wrywebsite.seckillweb.rabbitmqCallback;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.ReturnedMessage;

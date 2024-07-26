@@ -14,7 +14,9 @@ public enum ResponseEnum {
     // 秒杀失败
     SECKILL_FAIL(500,"来晚了，商品已经没有了~"),
     // 用户重复下单
-    USER_IS_BUG(501,"您已经成功秒杀到了,不能贪心哦"),
+    SECKILL_FAIL_USER_HAS_BUG(501,"您已经成功秒杀到了,不能贪心哦"),
+    // 随机码错误
+    SECKILL_RANDOMNUM_EXCEPTION(502,"网络异常"),
 
     // 订单查询
     ORDER_SUCCESS(200, "订单查询成功"),
