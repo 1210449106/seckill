@@ -6,17 +6,14 @@
 package xyz.wrywebsite.seckillweb.controller;
 
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import xyz.wrywebsite.constant.vo.HttpResult;
-import xyz.wrywebsite.constant.vo.ResponseEnum;
+import xyz.wrywebsite.constant.vo.*;
 import xyz.wrywebsite.seckillweb.service.GoodsService;
-import xyz.wrywebsite.constant.vo.Goods;
-import xyz.wrywebsite.constant.vo.GoodsDetailResponseVo;
-import xyz.wrywebsite.constant.vo.GoodsListResponseVo;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +27,7 @@ import java.util.stream.Collectors;
  */
 @RestController()
 @RequestMapping("/goods")
+@Slf4j
 public class GoodsController {
 
     @Resource
@@ -49,12 +47,25 @@ public class GoodsController {
                 .map(goods -> {
                     GoodsListResponseVo goodsListResponseVo = new GoodsListResponseVo();
                     BeanUtils.copyProperties(goods, goodsListResponseVo);
+                    // 设置Status和gapTime
+                    Long nowTime = System.currentTimeMillis();
+                    if ( nowTime < goods.getStartTime().getTime() ) {
+                        // 秒杀未开始,设置status
+                        goodsListResponseVo.setStatus(0);
+                        // 统计距离开始还有多久
+                        goodsListResponseVo.setGapTime(goods.getStartTime().getTime() - nowTime);
+                    } else if ( nowTime > goods.getEndTime().getTime() ) {
+                        // 秒杀已结束，设置状态
+                        goodsListResponseVo.setStatus(2);
+                    } else {
+                        goodsListResponseVo.setStatus(1);
+                    }
                     // 返回复制后的数据
                     return goodsListResponseVo;
                 })
                 // 收集为List
                 .collect(Collectors.toList());
-        HttpResult httpResult = new HttpResult(ResponseEnum.GOODS_SUCCESS,goodsList);
+        HttpResult httpResult = new HttpResult(ResponseEnum.GOODS_SUCCESS,goodsListResponseVoList);
         return httpResult;
     }
 
@@ -79,6 +90,8 @@ public class GoodsController {
             // 秒杀已结束，删除随机数
             goodsDetailResponseVo.setRandomNum(null);
             goodsDetailResponseVo.setStatus(2);
+        } else {
+            goodsDetailResponseVo.setStatus(1);
         }
         return new HttpResult(ResponseEnum.GOODS_SUCCESS, goodsDetailResponseVo);
     }

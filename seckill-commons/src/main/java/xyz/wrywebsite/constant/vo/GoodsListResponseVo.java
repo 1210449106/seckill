@@ -40,5 +40,10 @@ public class GoodsListResponseVo {
 
     private String image;
 
-    private Date startTime;
+    // 状态 0表示未开始,1表示开始,2表示已结束
+    private Integer status;
+
+    // 差距时间
+    private Long gapTime;
+
 }

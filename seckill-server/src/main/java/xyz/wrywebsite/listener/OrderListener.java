@@ -21,6 +21,7 @@ import xyz.wrywebsite.rabbitmqCallback.RabbitMQConfirmCallback;
 import xyz.wrywebsite.rabbitmqCallback.RabbitMQReturnsCallback;
 import xyz.wrywebsite.service.GoodsService;
 import xyz.wrywebsite.service.OrderService;
+import xyz.wrywebsite.service.PayMessageService;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -48,6 +49,8 @@ public class OrderListener {
     private RabbitMQConfirmCallback rabbitMQConfirmCallback;
     @Resource
     private RabbitMQReturnsCallback rabbitMQReturnsCallback;
+    @Resource
+    private PayMessageService payMessageService;
 
     @PostConstruct
     public void init() {
@@ -82,11 +85,8 @@ public class OrderListener {
             }
             channel.basicAck(tag, false);
             // 发送延时消息
-            rabbitTemplate.convertAndSend(Constants.EXCHANGE_PAY_NAME, Constants.ROUTING_KEY_PAY_NAME, order.getOrderId(), message1 -> {
-                message1.getMessageProperties().setDelay(Constants.QUEUE_PAY_DELAY_TIME);
-                return message1;
-            });
-            log.debug("订单 {} 支付结果确认消息提交成功,当前时间 {}", order.getOrderId(), System.currentTimeMillis());
+            payMessageService.sendPayDelayMessage(order.getOrderId());
+            log.debug("订单 {} 支付结果确认消息提交,当前时间 {}", order.getOrderId(), System.currentTimeMillis());
         } catch (Exception e) {
             // 插入订单失败,处理失败,重新入队
             try {

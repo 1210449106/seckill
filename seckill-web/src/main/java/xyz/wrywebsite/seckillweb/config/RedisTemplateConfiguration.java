@@ -37,11 +37,11 @@ public class RedisTemplateConfiguration {
         //定义RedisTemplate
         RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
 
-        //key使用处理字符串的序列化器
+        //使用处理字符串的序列化器处理key
         redisTemplate.setKeySerializer(stringRedisSerializer);
         redisTemplate.setHashKeySerializer(stringRedisSerializer);
 
-        //使用jackson序列化为json对象处理value
+        //使用字符串处理器处理value
         redisTemplate.setValueSerializer(stringRedisSerializer);
         redisTemplate.setHashValueSerializer(stringRedisSerializer);
 

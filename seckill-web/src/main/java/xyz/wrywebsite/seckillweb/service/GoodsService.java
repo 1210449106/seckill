@@ -29,4 +29,16 @@ public interface GoodsService {
      * @return
      */
     Goods getGoodsById(Integer id);
+
+    /**
+     * 获取商品库存
+     * @return
+     */
+    Integer getGoodsCount(Integer goodsId);
+
+    /**
+     * 设置商品库存
+     * @param goodsId 商品id
+     */
+    void deductionGoodsCount(Integer goodsId);
 }

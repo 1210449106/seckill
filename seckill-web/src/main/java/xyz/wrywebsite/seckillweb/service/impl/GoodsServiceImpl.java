@@ -60,4 +60,15 @@ public class GoodsServiceImpl implements GoodsService {
         }
         return goods;
     }
+
+    @Override
+    public Integer getGoodsCount(Integer goodsId) {
+        Integer count = Integer.valueOf((String) redisTemplate.opsForValue().get(Constants.REDIS_GOODS_COUNT + goodsId));
+        return count;
+    }
+
+    @Override
+    public void deductionGoodsCount(Integer goodsId) {
+        redisTemplate.opsForValue().decrement(Constants.REDIS_GOODS_COUNT + goodsId);
+    }
 }

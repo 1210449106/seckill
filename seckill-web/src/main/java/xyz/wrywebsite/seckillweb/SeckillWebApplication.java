@@ -9,5 +9,4 @@ public class SeckillWebApplication {
     public static void main(String[] args) {
         SpringApplication.run(SeckillWebApplication.class, args);
     }
-
 }

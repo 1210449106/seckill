@@ -28,6 +28,20 @@ public interface Constants {
     String REDIS_ORDER = REDIS_ORDERS_PREF + ":" + "order" + ":";
     // 订单秒杀关系key
     String REDIS_ORDER_SECKILL = REDIS_ORDERS_PREF + ":" + "seckill" + ":";
+    // 订单秒杀限流key
+    String REDIS_ORDER_SECKILL_LIMIT = REDIS_ORDERS_PREF + ":" + "limit:";
+
+    // 订单秒杀结果
+    // 成功
+    Long REDIS_SECKILL_CODE_SUCCESS = 200L;
+    // 重复下单
+    Long REDIS_SECKILL_CODE_USER_HAS_BUY = -501L;
+    // 库存不足
+    Long REDIS_SECKILL_CODE_NOT_COUNT = -502L;
+    // 被限流
+    Long REDIS_SECKILL_LIMIT = -503L;
+    // 最大访问量
+    Long REDIS_SECKILL_MAX_VISITE = 0L;
     // 订单支付结果key
     String REDIS_ORDER_PAY = REDIS_ORDERS_PREF + ":" + "pay" + ":";
 
@@ -58,4 +72,7 @@ public interface Constants {
     String ROUTING_KEY_ORDER_NAME = ROUTING_KEY_PREF + "." + "order";
     // 负责确认支付状态队列的routingkey
     String ROUTING_KEY_PAY_NAME = ROUTING_KEY_PREF + "." + "pay";
+
+    // 结果
+    Long RABBIRMQ_RUSILT_SUCCESS = 200L;
 }

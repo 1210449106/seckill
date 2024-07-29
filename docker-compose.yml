@@ -15,7 +15,7 @@ services:
       MYSQL_PASSWORD: 123456
     # 数据卷 -v
     volumes:
-      - /opt/tools/dockers/data/:/var/lib/mysql/
+      - /opt/tools/dockers/seckill/data/mysql:/var/lib/mysql/
     # 总是重启 --restart
     restart: always
 
@@ -42,17 +42,29 @@ services:
       RABBITMQ_DEFAULT_USER: 1210449106
       RABBITMQ_DEFAULT_PASS: 123456
 
-#  web-service:
-#    # 构建镜像，当前目录找Dockerfile文件 创建镜像
-#    build: ./
-#
-#    container_name: boot1
-#    ports:
-#      - 8888:8080
-#    restart: always
-#    # 依赖，写依赖的服务名
-#    # 运行时先启动依赖的服务
-#    depends_on:
-#      - mysql-serive
-#      - redis-service
-#      - rabbitmq-service
+  seckill-service:
+    # 构建镜像，当前目录找Dockerfile文件 创建镜像
+    build: ./seckill-server
+
+    container_name: seckill-server
+    restart: always
+    # 依赖，写依赖的服务名
+    # 运行时先启动依赖的服务
+    depends_on:
+      - mysql-serive
+      - redis-service
+      - rabbitmq-service
+
+  seckill-web:
+    # 构建镜像，当前目录找Dockerfile文件 创建镜像
+    build: ./seckillWeb
+
+    container_name: seckill-web
+    ports:
+      - 8888:8080
+    restart: always
+    # 依赖，写依赖的服务名
+    # 运行时先启动依赖的服务
+    depends_on:
+      - redis-service
+      - rabbitmq-service

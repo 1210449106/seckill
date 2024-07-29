@@ -6,6 +6,7 @@
 package xyz.wrywebsite.task;
 
 
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -40,6 +41,18 @@ public class RedisInitialization {
     private RedisTemplate<String,Object> redisTemplate;
 
     /**
+     * 写入库存到Redis
+     */
+    @PostConstruct
+    public void initGoodsCount(){
+        List<Goods> list = goodsService.list();
+        list.stream().forEach(goods -> {
+            // 同步库存消息
+            redisTemplate.opsForValue().setIfAbsent(Constants.REDIS_GOODS_COUNT + goods.getGoodsId(), goods.getCount());
+        });
+    }
+
+    /**
      * 每3s同步商品列表、库存消息到Redis
      */
     @Scheduled(cron = "0/3 * * * * *")
@@ -48,8 +61,6 @@ public class RedisInitialization {
         list.stream().forEach(goods -> {
             // 同步商品列表
             redisTemplate.opsForValue().set(Constants.REDIS_GOODS_LIST + goods.getGoodsId(), goods);
-            // 同步库存消息
-            redisTemplate.opsForValue().setIfAbsent(Constants.REDIS_GOODS_COUNT + goods.getGoodsId(), goods.getCount());
         });
     }
 
@@ -66,6 +77,7 @@ public class RedisInitialization {
             redisTemplate.opsForValue().set(Constants.REDIS_ORDER + order.getOrderId(), order);
             // 写入订单支付结果
             redisTemplate.opsForValue().set(Constants.REDIS_ORDER_PAY + order.getOrderId(), order.getStatus());
+            redisTemplate.opsForValue().set(Constants.REDIS_ORDER_SECKILL + order.getGoodsId() + ":" + order.getUserId(), order.getStatus());
         });
     }
 
