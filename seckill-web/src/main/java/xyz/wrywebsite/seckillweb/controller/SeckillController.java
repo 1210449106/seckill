@@ -24,7 +24,7 @@ import xyz.wrywebsite.seckillweb.service.SeckillService;
  * @description
  * @since 1.0
  */
-//@RestController
+@RestController
 @RequestMapping("/seckill")
 @Slf4j
 public class SeckillController {
@@ -37,7 +37,6 @@ public class SeckillController {
 
     @Resource
     private OrderMessageService orderMessageService;
-
 
     @PostMapping("/{randomNum}")
     public HttpResult saveOrder(@PathVariable("randomNum") String randomNum, @RequestBody OrderResponseVo orderResponseVo){
@@ -62,27 +61,26 @@ public class SeckillController {
             log.debug("不在秒杀时段");
             return new HttpResult(ResponseEnum.SECKILL_EXCEPTION, null);
         }
-        // 查询结果
+        // 执行秒杀
         Long rs = seckillService.doSeckill(orderResponseVo);
+        log.debug("秒杀结果为[{}]",rs.toString());
+        if (rs.equals(Constants.REDIS_SECKILL_CODE_SUCCESS)) {
+            // 秒杀成功
+            // 发送消息
+            orderMessageService.sendOrder(orderResponseVo);
+            return new HttpResult(ResponseEnum.SECKILL_SUCCESS, null);
+        }
         if (rs.equals(Constants.REDIS_SECKILL_CODE_USER_HAS_BUY)) {
-            log.debug("用户重复下单");
+            // 重复下单
             return new HttpResult(ResponseEnum.SECKILL_FAIL_USER_HAS_BUG, null);
         }
         if (rs.equals(Constants.REDIS_SECKILL_CODE_NOT_COUNT)) {
-            log.debug("库存不足");
+            // 库存不足
             return new HttpResult(ResponseEnum.SECKILL_FAIL, null);
         }
-        // 判断成功,发送消息,添加映射关系
-        if (rs.equals(Constants.REDIS_SECKILL_CODE_SUCCESS)) {
-            Long rs2 = seckillService.doSeckill(orderResponseVo);
-            if (rs2.equals(Constants.RABBIRMQ_RUSILT_SUCCESS)) {
-                log.debug("秒杀成功");
-                // 发送消息
-//                orderMessageService.sendOrder(orderResponseVo);
-                // 添加映射关系
-                seckillService.setSeckill(orderResponseVo);
-                return new HttpResult(ResponseEnum.SECKILL_SUCCESS, null);
-            }
+        if (rs.equals(Constants.REDIS_SECKILL_LIMIT)) {
+            // 被限流
+            return new HttpResult(ResponseEnum.SECKILL_LIMIT_VISIT, null);
         }
         log.debug("未知原因失败");
         // 异常原因失败

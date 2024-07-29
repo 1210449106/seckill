@@ -41,7 +41,7 @@ public interface Constants {
     // 被限流
     Long REDIS_SECKILL_LIMIT = -503L;
     // 最大访问量
-    Long REDIS_SECKILL_MAX_VISITE = 0L;
+    Long REDIS_SECKILL_MAX_VISITE = 1000L;
     // 订单支付结果key
     String REDIS_ORDER_PAY = REDIS_ORDERS_PREF + ":" + "pay" + ":";
 
