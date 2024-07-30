@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/seckill.iml" filepath="$PROJECT_DIR$/seckill.iml" />
-      <module fileurl="file://$PROJECT_DIR$/seckill-commons.iml" filepath="$PROJECT_DIR$/seckill-commons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/seckill-commons/seckill-commons.iml" filepath="$PROJECT_DIR$/seckill-commons/seckill-commons.iml" />
       <module fileurl="file://$PROJECT_DIR$/seckill-server/seckill-server.iml" filepath="$PROJECT_DIR$/seckill-server/seckill-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/seckill-view/seckill-view.iml" filepath="$PROJECT_DIR$/seckill-view/seckill-view.iml" />
       <module fileurl="file://$PROJECT_DIR$/seckill-web/seckill-web.iml" filepath="$PROJECT_DIR$/seckill-web/seckill-web.iml" />

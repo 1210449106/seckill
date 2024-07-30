@@ -29,6 +29,6 @@ spring:
   jackson:
     time-zone: Asia/Shanghai
 
-logging:
-  level:
-    xyz.wrywebsite.*: debug
+#logging:
+#  level:
+#    xyz.wrywebsite.*: debug
